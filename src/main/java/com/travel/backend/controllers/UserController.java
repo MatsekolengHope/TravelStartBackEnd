@@ -2,6 +2,8 @@ package com.travel.backend.controllers;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,12 +52,16 @@ public class UserController {
 
 	@PutMapping("/update-user")
 	public User updateUser(@RequestBody Traveller user) {
-
 		return userService.updateUser(user);
 	}
 
 	@GetMapping("/login/{email}/{password}")
 	public User login(@PathVariable String email, @PathVariable String password) {
 		return userService.login(email, password);
+	}
+	
+	@GetMapping("/forgot-password/{email}")
+	public String passwordRetrieve(@PathVariable String email) throws MessagingException {
+		return userService.passwordRetrieve(email);
 	}
 }

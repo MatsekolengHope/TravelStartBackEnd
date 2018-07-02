@@ -1,17 +1,19 @@
 package com.travel.backend.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.travel.backend.entities.traveller.Traveller;
 
 @Entity(name = "address")
-public class Address {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Address{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +26,8 @@ public class Address {
 	private String street;
 	private int houseNo;
 	private int residentailCode;
-
-
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	private Traveller traveller;
 
 	public Address() {
 		super();

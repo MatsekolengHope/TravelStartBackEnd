@@ -3,9 +3,12 @@ package com.travel.backend.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.travel.backend.email.ForgortenPasswordEmailSend;
 import com.travel.backend.entities.traveller.Traveller;
 import com.travel.backend.entities.user.User;
 import com.travel.backend.repositories.UserRepository;
@@ -15,6 +18,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ForgortenPasswordEmailSend emailSend;
 
 	public User createTraveller(Traveller traveller) {
 		traveller.setRole("Traveller");
@@ -78,6 +84,23 @@ public class UserService {
 		}
 
 		return targetUser;
+	}
+
+	public String passwordRetrieve(String email) throws MessagingException {
+		String body = "";
+		String result = "Failure";
+		for (User user : userRepository.findAll()) {
+			if (user.getEmail().equals(email)) {
+				body += "Hi " + user.getFirstname() + " " + user.getLastname() + ",<br><br>" + "Password requested: "
+						+ user.getPassword() + "<br><br>Thanks for choosing Travelstart." + "<br><br>"
+						+ "Kind regards, <br> Travelstart Security Team";
+
+				emailSend.send(email, "Password Requested", body);
+				result = "Success";
+				break;
+			}
+		}
+		return result;
 	}
 
 }

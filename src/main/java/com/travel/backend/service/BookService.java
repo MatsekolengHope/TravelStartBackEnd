@@ -1,11 +1,9 @@
 package com.travel.backend.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.travel.backend.entities.book.Book;
 import com.travel.backend.repositories.BookRepository;

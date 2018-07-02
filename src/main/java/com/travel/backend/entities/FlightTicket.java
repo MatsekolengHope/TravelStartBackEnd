@@ -1,16 +1,18 @@
 package com.travel.backend.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.travel.backend.entities.traveller.Traveller;
 
 @Entity(name = "FlightTicket")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class FlightTicket {
 
 	@Id
@@ -24,10 +26,9 @@ public class FlightTicket {
 	private String departureDate;
 	private String departureCity;
 	private String arrivalCity;
+	private String arrivalTime;
 	private int seat;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "travellerId")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Traveller traveller;
 
 	public FlightTicket() {
@@ -52,8 +53,24 @@ public class FlightTicket {
 		return travellerName;
 	}
 
+	/*public Traveller getTraveller() {
+		return traveller;
+	}*/
+
+	public void setTravellerId(Traveller traveller) {
+		this.traveller = traveller;
+	}
+
 	public void setTravellerName(String travellerName) {
 		this.travellerName = travellerName;
+	}
+
+	public String getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(String arrivalTime) {
+		this.arrivalTime = arrivalTime;
 	}
 
 	public String getTravellerSurname() {

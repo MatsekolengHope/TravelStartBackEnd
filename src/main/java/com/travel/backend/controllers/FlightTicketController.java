@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.travel.backend.entities.book.CarBook;
 import com.travel.backend.entities.user.User;
-import com.travel.backend.entities.book.BookFlight;
+import com.travel.backend.entities.FlightTicket;
 import com.travel.backend.entities.book.BookHotel;
 import com.travel.backend.service.BookCarService;
-import com.travel.backend.service.BookFlightService;
+import com.travel.backend.service.FlightTicketService;
 import com.travel.backend.service.BookHotelService;
 
 @RestController
 @RequestMapping("/flight-book")
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
-public class BookFlightController {
+public class FlightTicketController {
 
 	@Autowired
-	private BookFlightService bookFlightService;
+	private FlightTicketService flightTicketService;
 
 	@Autowired
 	private BookCarService bookCarService;
@@ -34,8 +34,8 @@ public class BookFlightController {
 	private BookHotelService bookHotelService;
 
 	@PostMapping("/book-flight")
-	public BookFlight bookFlight(@RequestBody BookFlight book) {
-		return bookFlightService.bookFlight(book);
+	public FlightTicket flightTicket(@RequestBody FlightTicket book) {
+		return flightTicketService.flightTicket(book);
 	}
 
 	@PostMapping("/book-hotel")
@@ -49,40 +49,25 @@ public class BookFlightController {
 		return bookCarService.bookCar(book);
 	}
 
-	@GetMapping("/find-flight-booking/{i}")
-	public BookFlight findBooking(@PathVariable int i) {
-		return bookFlightService.findBooking(i);
-	}
-
-	@GetMapping("/find-flight-bookings/{i}")
-	public List<BookFlight> myBookings(@PathVariable int i) {
-		// TODO Auto-generated method stub
-		return bookFlightService.myBookings(i);
-	}
 
 	@GetMapping("/delete/{id}")
 	public Boolean deleteBooking(@PathVariable int id) {
-		bookFlightService.deleteBooking(id);
+		flightTicketService.deleteBooking(id);
 		return true;
 	}
 
 	@GetMapping("/seat/{flihtId}")
 	public int seat(@PathVariable int flihtId) {
-		return bookFlightService.seat(flihtId);
+		return flightTicketService.seat(flihtId);
 	}
 
 	@GetMapping("/flight-books")
-	public List<BookFlight> books() {
-		return bookFlightService.books();
+	public List<FlightTicket> books() {
+		return flightTicketService.books();
 	}
 
 	@GetMapping("/specific-flight-books/{flightId}")
-	public List<BookFlight> specificFlightBooks(@PathVariable Long flightId) {
-		return bookFlightService.specificFlightBooks(flightId);
-	}
-
-	@GetMapping("/seat-booked-users/{flightId}")
-	public List<User> bookedUser(@PathVariable int flightId) {
-		return bookFlightService.bookedUsers(flightId);
+	public List<FlightTicket> specificFlightBooks(@PathVariable Long flightId) {
+		return flightTicketService.specificFlightTicket(flightId);
 	}
 }
