@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.travel.backend.entities.book.CarBook;
-import com.travel.backend.entities.user.User;
 import com.travel.backend.entities.FlightTicket;
 import com.travel.backend.entities.book.BookHotel;
+import com.travel.backend.entities.book.CarBook;
 import com.travel.backend.service.BookCarService;
-import com.travel.backend.service.FlightTicketService;
 import com.travel.backend.service.BookHotelService;
+import com.travel.backend.service.FlightTicketService;
 
 @RestController
 @RequestMapping("/flight-book")
@@ -69,5 +68,10 @@ public class FlightTicketController {
 	@GetMapping("/specific-flight-books/{flightId}")
 	public List<FlightTicket> specificFlightBooks(@PathVariable Long flightId) {
 		return flightTicketService.specificFlightTicket(flightId);
+	}
+	
+	@GetMapping("/available-tickets/{flightId}")
+	public List<Integer> availableTickets(@PathVariable int flightId){
+		return flightTicketService.availableTickets(flightId);
 	}
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.travel.backend.entities.FlightTicket;
 import com.travel.backend.repositories.FlightTicketRepository;
-import com.travel.backend.repositories.UserRepository;
 
 @Service
 public class FlightTicketService {
@@ -17,8 +16,9 @@ public class FlightTicketService {
 	private FlightTicketRepository flightTicketRepository;
 	@Autowired
 	private FlightService flightService;
+	
 	@Autowired
-	private UserRepository userRepository;
+	private FlightTicketService flightTicketService;
 
 	public FlightTicket flightTicket(FlightTicket flightTicket) {
 		return flightTicketRepository.save(flightTicket);
@@ -91,5 +91,30 @@ public class FlightTicketService {
 		}
 
 		return tickets;
+	}
+
+	public List<Integer> availableTickets(int flightId) {
+
+		List<Integer> availableTickets = new ArrayList<Integer>();
+		List<Integer> bookedSeats = new ArrayList<Integer>();
+
+		int capacity = flightService.getFlight(flightId).getCapacity();
+
+		for (int x = 0; x < flightTicketService.books().size(); x++) {
+			if (flightTicketService.books().get(x).getFlightId() == flightId) {
+				bookedSeats.add(flightTicketService.books().get(x).getSeat());
+			}
+
+		}
+
+		for (int x = 1; x <= capacity; x++) {
+			if (bookedSeats.contains(x)) {
+				continue;
+			} else {
+				availableTickets.add(x);
+			}
+		}
+
+		return availableTickets;
 	}
 }

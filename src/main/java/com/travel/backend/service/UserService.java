@@ -8,6 +8,8 @@ import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.travel.backend.email.ContactUs;
+import com.travel.backend.email.ContactUsEmailSend;
 import com.travel.backend.email.ForgortenPasswordEmailSend;
 import com.travel.backend.entities.traveller.Traveller;
 import com.travel.backend.entities.user.User;
@@ -21,6 +23,9 @@ public class UserService {
 
 	@Autowired
 	private ForgortenPasswordEmailSend emailSend;
+	
+	@Autowired
+	private ContactUsEmailSend contactUsEmailSend;
 
 	public User createTraveller(Traveller traveller) {
 		traveller.setRole("Traveller");
@@ -101,6 +106,11 @@ public class UserService {
 			}
 		}
 		return result;
+	}
+	
+	public String contactUs(ContactUs contactUs) throws MessagingException {
+		contactUsEmailSend.send(contactUs);
+		return "Sending...";
 	}
 
 }

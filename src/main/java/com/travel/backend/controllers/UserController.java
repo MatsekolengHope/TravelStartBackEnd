@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.travel.backend.email.ContactUs;
 import com.travel.backend.entities.traveller.Traveller;
 import com.travel.backend.entities.user.User;
 import com.travel.backend.repositories.UserRepository;
@@ -63,5 +64,10 @@ public class UserController {
 	@GetMapping("/forgot-password/{email}")
 	public String passwordRetrieve(@PathVariable String email) throws MessagingException {
 		return userService.passwordRetrieve(email);
+	}
+	
+	@RequestMapping("/contact-us")
+	public String contactUs(@RequestBody ContactUs contactUs) throws MessagingException {
+		return userService.contactUs(contactUs);
 	}
 }
